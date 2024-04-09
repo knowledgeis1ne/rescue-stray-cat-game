@@ -3083,17 +3083,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5498399304945442971, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
+      propertyPath: jumpPower
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5498399304945442975, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5498399304945442975, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.49
+      value: -5.669
       objectReference: {fileID: 0}
     - target: {fileID: 5498399304945442975, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.77
+      value: -3.022
       objectReference: {fileID: 0}
     - target: {fileID: 5498399304945442975, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3281,7 +3285,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0}
   minX: -8.83
   minY: -5
-  maxX: 20.45
+  maxX: 29.4
   maxY: 5
 --- !u!1 &1913175763
 GameObject:
