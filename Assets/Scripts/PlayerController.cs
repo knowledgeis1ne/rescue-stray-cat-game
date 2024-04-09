@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D rigid;
-    bool isJumping = false;
-    bool isRunning = false;
+    public bool isJumping = false;
+    public bool isRunning = false;
     public float jumpPower;
     public float maxSpeed;
 
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 점프 애니메이션 체크
+        /*
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") == true)
         {
             float animTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime; // 애니메이션 실행 시간
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
                 else anim.SetBool("isIdle", true);
             }
         }
+        */
     }
 
     private void FixedUpdate()
@@ -70,12 +72,27 @@ public class PlayerController : MonoBehaviour
             if (h == -1) this.transform.localScale = new Vector3(-1, 1, 1);
             else if (h == 1) this.transform.localScale = new Vector3(1, 1, 1);
         }
+
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("Tilemap"));
+        if (rayHit.collider != null)
+        {
+            if (rayHit.collider.name == "Tilemap") // 지면에 닿아 있다면
+            {
+                Debug.Log(rayHit.collider.tag);
+                isJumping = false;
+                if (Mathf.Abs(rigid.velocity.x) < 0.1f)
+                {
+                    isRunning = false;
+                    anim.SetBool("isIdle", true);
+                }
+            }
+        }
     }
 
     private IEnumerator DelayIdleAnimation()
     {
         yield return new WaitForSeconds(0.1f);
-        if (!Input.GetButton("Horizontal"))
+        if (Mathf.Abs(rigid.velocity.x) < 0.1f)
         {
             isRunning = false;
             anim.SetBool("isRun", false);
