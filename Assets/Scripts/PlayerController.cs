@@ -6,9 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D rigid;
-    bool isRunning = false;
     bool isJumping = false;
-    public float maxSpeed = 5.0f;
+    bool isRunning = false;
+    public float jumpPower;
+    public float maxSpeed;
 
     private void Start()
     {
@@ -22,24 +23,35 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Horizontal") && !isRunning)
         {
             isRunning = true;
-            anim.SetBool("isRun", true);
+            if (!isJumping) anim.SetBool("isRun", true);
             anim.SetBool("isIdle", false);
         }
         else if (Input.GetButtonUp("Horizontal") && isRunning)
         {
-            isRunning = false;
             rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y); // 감속
-            anim.SetBool("isRun", false);
-            anim.SetBool("isIdle", true);
+            StartCoroutine(DelayIdleAnimation());
         }
 
-        /*
-        if (Input.GetKey(KeyCode.Space) && !isJumping)
+        if (Input.GetButtonDown("Jump") && !isJumping)
         {
             isJumping = true;
-            anim.SetBool("isJump", true);
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            anim.SetTrigger("isJump");
+            anim.SetBool("isRun", false);
+            anim.SetBool("isIdle", false);
         }
-        */
+
+        // 점프 애니메이션 체크
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") == true)
+        {
+            float animTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime; // 애니메이션 실행 시간
+            if (animTime >= 1.0f) // 애니메이션이 끝났다면
+            {
+                isJumping = false;
+                if (isRunning) anim.SetBool("isRun", true);
+                else anim.SetBool("isIdle", true);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -58,10 +70,16 @@ public class PlayerController : MonoBehaviour
             if (h == -1) this.transform.localScale = new Vector3(-1, 1, 1);
             else if (h == 1) this.transform.localScale = new Vector3(1, 1, 1);
         }
-        
-        if (isJumping) {
+    }
 
+    private IEnumerator DelayIdleAnimation()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (!Input.GetButton("Horizontal"))
+        {
+            isRunning = false;
+            anim.SetBool("isRun", false);
+            anim.SetBool("isIdle", true);
         }
-        
     }
 }
