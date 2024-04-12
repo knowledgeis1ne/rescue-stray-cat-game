@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D rigid;
+    WaitForSeconds ws;
     public bool isJumping = false;
     public bool isRunning = false;
     public float jumpPower;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
+        ws = new WaitForSeconds(0.1f);
     }
 
     private void Update()
@@ -91,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayIdleAnimation()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return ws;
         if (Mathf.Abs(rigid.velocity.x) < 0.1f)
         {
             isRunning = false;
