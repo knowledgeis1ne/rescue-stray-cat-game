@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("Tilemap"));
         if (rayHit.collider != null)
         {
-            if (rayHit.collider.name == "Tilemap" && rayHit.distance < 0.5f) // 지면에 닿아 있다면
+            if (rayHit.collider.tag == "Tilemap" && rayHit.distance < 0.5f) // 지면에 닿아 있다면
             {
                 Debug.Log(rayHit.collider.tag);
                 isJumping = false;
