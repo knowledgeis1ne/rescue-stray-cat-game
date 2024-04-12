@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tilemap
+  - Die
+  - Key
   layers:
   - Default
   - TransparentFX
