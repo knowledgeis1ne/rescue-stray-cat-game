@@ -7,10 +7,18 @@ public class FindKey : MonoBehaviour
 {
     // 스테이지 1 : 열쇠 찾기
 
+    public static FindKey instance;
+
+    public MissionUI ui;
     public List<Transform> keys;
 
     public int wholeCount;
     public int getCount = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -28,6 +36,7 @@ public class FindKey : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             getCount++;
+            ui.SetText();
         }
     }
 }
