@@ -19,8 +19,8 @@ public class MissionUI : MonoBehaviour
         missionPanel.gameObject.SetActive(true);
         originalPosition = missionPanel.position;
         sceneName = SceneManager.GetActiveScene().name;
-        StartCoroutine(MovePanel(targetPosition.position, smoothTime));
         SetText();
+        StartCoroutine(MovePanel(targetPosition.position, smoothTime));
     }
 
     public void SetText() // 스테이지마다 미션 패널 텍스트 새롭게 설정
@@ -28,8 +28,7 @@ public class MissionUI : MonoBehaviour
         switch(sceneName)
         {
             case "Stage1":
-                miniPanelText.text = "고양이가 갇힌 케이지를 열기 위해 열쇠를 모아 주세요 (" +
-                    FindKey.instance.getCount + "/" + FindKey.instance.wholeCount + ")";
+                miniPanelText.text = "고양이가 갇힌 케이지를 열기 위해 여러 색깔의 열쇠를 모아 주세요";
                 break;
             case "Stage2":
                 break;

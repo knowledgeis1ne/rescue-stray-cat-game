@@ -59,7 +59,7 @@ public class ScriptManager : MonoBehaviour
         this.scripts = scripts;
     }
 
-    private void ShowScript()
+    public void ShowScript()
     {
         isPlaying = true;
         currentLine = 0;
@@ -143,7 +143,7 @@ public class ScriptManager : MonoBehaviour
         scriptPanel.SetActive(flag);
     }
 
-    private void FindScript(string scriptName)
+    public void FindScript(string scriptName)
     {
         for (int i = 0; i < script.scripts.Length; i++)
             if (script.scripts[i].scriptName == scriptName)

@@ -7,6 +7,9 @@ TagManager:
   - Tilemap
   - Die
   - Key
+  - Interactable
+  - Cat
+  - Box
   layers:
   - Default
   - TransparentFX
@@ -15,7 +18,7 @@ TagManager:
   - Water
   - UI
   - Tilemap
-  - 
+  - Interactable
   - 
   - 
   - 

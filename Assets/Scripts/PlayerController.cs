@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     WaitForSeconds ws;
     public bool isJumping = false;
     public bool isRunning = false;
+    public bool isIdling = true;
     public float jumpPower;
     public float maxSpeed;
 
@@ -24,9 +25,9 @@ public class PlayerController : MonoBehaviour
         // 애니메이션 전환
         if (Input.GetButton("Horizontal") && !isRunning)
         {
-            isRunning = true;
-            if (!isJumping) anim.SetBool("isRun", true);
-            anim.SetBool("isIdle", false);
+            isRunning = true; isIdling = false;
+            if (!isJumping) anim.SetBool("isRun", isRunning);
+            anim.SetBool("isIdle", isIdling);
         }
         else if (Input.GetButtonUp("Horizontal") && isRunning)
         {
@@ -36,30 +37,23 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && !isJumping)
         {
-            isJumping = true;
+            isJumping = true; isRunning = false; isIdling = false;
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             anim.SetTrigger("isJump");
-            anim.SetBool("isRun", false);
-            anim.SetBool("isIdle", false);
+            anim.SetBool("isRun", isRunning);
+            anim.SetBool("isIdle", isIdling);
         }
 
-        // 점프 애니메이션 체크
-        /*
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") == true)
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            float animTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime; // 애니메이션 실행 시간
-            if (animTime >= 1.0f) // 애니메이션이 끝났다면
-            {
-                isJumping = false;
-                if (isRunning) anim.SetBool("isRun", true);
-                else anim.SetBool("isIdle", true);
-            }
+            Collider2D nearestCollider = GetNearestInteractableCollider();
+            if (nearestCollider != null) InteractWith(nearestCollider.gameObject);
         }
-        */
     }
 
     private void FixedUpdate()
     {
+        //DetectObject();
         if (isRunning) // Update()와 FixedUpdate() 동기화 -> 입력 상태 확인
         {
             float h = Input.GetAxisRaw("Horizontal"); // -1, 0, 1 중 반환
@@ -78,16 +72,60 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("Tilemap"));
         if (rayHit.collider != null)
         {
-            if (rayHit.collider.tag == "Tilemap" && rayHit.distance < 0.5f) // 지면에 닿아 있다면
+            string colTag = rayHit.collider.tag;
+            if ((colTag == "Tilemap" || colTag == "Box") 
+                && rayHit.distance < 0.5f) // 지면에 닿아 있다면
             {
-                Debug.Log(rayHit.collider.tag);
                 isJumping = false;
                 if (Mathf.Abs(rigid.velocity.x) < 0.1f)
                 {
-                    isRunning = false;
-                    anim.SetBool("isIdle", true);
+                    isRunning = false; isIdling = true;
+                    anim.SetBool("isRun", isRunning);
+                    anim.SetBool("isIdle", isIdling);
                 }
             }
+        }
+    }
+
+
+    private Collider2D GetNearestInteractableCollider()
+    {
+        float interactionDistance = 3f;
+        LayerMask interactableLayer = LayerMask.GetMask("Interactable");
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, interactionDistance, interactableLayer); // 상호작용 가능한 레이어의 콜라이더 검출
+        Collider2D nearestCollider = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (Collider2D col in colliders)
+        {
+            float distance = Vector2.Distance(transform.position, col.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestCollider = col;
+            }
+        }
+
+        return nearestCollider;
+    }
+    
+    private void InteractWith(GameObject gameObject)
+    {
+        switch (gameObject.name)
+        {
+            case "Cat":
+                break;
+            case "Box":
+                // 키가 4개 이상이라면 일단 Key Panel 열기
+                if (FindKey.instance.getKeyList.Count > 3) FindKey.instance.ShowKeyPanel();
+                // 그렇지 않다면 스크립트 출력
+                else
+                {
+                    ScriptManager.instance.FindScript("STAGE_1_FAIL_3");
+                    ScriptManager.instance.ShowScript();
+                }
+                break;
         }
     }
 
@@ -96,9 +134,9 @@ public class PlayerController : MonoBehaviour
         yield return ws;
         if (Mathf.Abs(rigid.velocity.x) < 0.1f)
         {
-            isRunning = false;
-            anim.SetBool("isRun", false);
-            anim.SetBool("isIdle", true);
+            isRunning = false; isIdling = true;
+            anim.SetBool("isRun", isRunning);
+            anim.SetBool("isIdle", isIdling);
         }
     }
 }
