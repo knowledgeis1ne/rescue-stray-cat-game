@@ -28,16 +28,13 @@ public class ScriptManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
+        instance = this;
 
-            ScriptParser scriptParser = GetComponent<ScriptParser>();
-            Script[] scripts = scriptParser.Parse(csvName);
+        ScriptParser scriptParser = GetComponent<ScriptParser>();
+        Script[] scripts = scriptParser.Parse(csvName);
 
-            for (int i = 0; i < scripts.Length; i++)
-                scriptDic.Add(i + 1, scripts[i]);
-        }
+        for (int i = 0; i < scripts.Length; i++)
+            scriptDic.Add(i + 1, scripts[i]);
     }
 
     private void Start()

@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     Animator anim;
     Rigidbody2D rigid;
     WaitForSeconds ws;
     ScriptManager scriptManager;
-    public bool isJumping = false;
-    public bool isRunning = false;
-    public bool isIdling = true;
+    public bool isJumping = false; // 점프 중인가?
+    public bool isRunning = false; // 이동 중인가?
+    public bool isIdling = true;   // 기본 상태인가?
+    public bool isMovable = true;  // 키 입력이 가능한 상태인가?
     public float jumpPower;
     public float maxSpeed;
+
+    public GameObject gameOverPanel;
+    public GameObject dyingMark;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -24,26 +36,29 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // 애니메이션 전환
-        if (Input.GetButton("Horizontal") && !isRunning)
+        if (isMovable)
         {
-            isRunning = true; isIdling = false;
-            if (!isJumping) anim.SetBool("isRun", isRunning);
-            anim.SetBool("isIdle", isIdling);
-        }
-        else if (Input.GetButtonUp("Horizontal") && isRunning)
-        {
-            rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y); // 감속
-            StartCoroutine(DelayIdleAnimation());
-        }
+            // 애니메이션 전환
+            if (Input.GetButton("Horizontal") && !isRunning)
+            {
+                isRunning = true; isIdling = false;
+                if (!isJumping) anim.SetBool("isRun", isRunning);
+                anim.SetBool("isIdle", isIdling);
+            }
+            else if (Input.GetButtonUp("Horizontal") && isRunning)
+            {
+                rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y); // 감속
+                StartCoroutine(DelayIdleAnimation());
+            }
 
-        if (Input.GetButtonDown("Jump") && !isJumping)
-        {
-            isJumping = true; isRunning = false; isIdling = false;
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            anim.SetTrigger("isJump");
-            anim.SetBool("isRun", isRunning);
-            anim.SetBool("isIdle", isIdling);
+            if (Input.GetButtonDown("Jump") && !isJumping)
+            {
+                isJumping = true; isRunning = false; isIdling = false;
+                rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                anim.SetTrigger("isJump");
+                anim.SetBool("isRun", isRunning);
+                anim.SetBool("isIdle", isIdling);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -75,7 +90,7 @@ public class PlayerController : MonoBehaviour
         if (rayHit.collider != null)
         {
             string colTag = rayHit.collider.tag;
-            if ((colTag == "Tilemap" || colTag == "Box") 
+            if ((colTag == "Tilemap" || colTag == "Box")
                 && rayHit.distance < 0.5f) // 지면에 닿아 있다면
             {
                 isJumping = false;
@@ -119,22 +134,16 @@ public class PlayerController : MonoBehaviour
             case "Cat":
                 // 문제를 풀었는지 여부 확인
                 if (FindKey.instance.isCompleted)
-                {
                     scriptManager.FindScript("STAGE_1_CLEAR_2");
-                }
                 else
-                {
                     scriptManager.FindScript("STAGE_1_FAIL_1");
-                }
                 break;
             case "Box":
                 // 키가 4개 이상이라면 일단 Key Panel 열기
                 if (FindKey.instance.getKeyList.Count > 3) FindKey.instance.ShowKeyPanel();
                 // 그렇지 않다면 스크립트 출력
                 else
-                {
                     scriptManager.FindScript("STAGE_1_FAIL_3");
-                }
                 break;
         }
     }
@@ -148,5 +157,34 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("isRun", isRunning);
             anim.SetBool("isIdle", isIdling);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Die Area에 Player가 닿았을 경우
+        if (other.CompareTag("Die"))
+        {
+            // 카메라 고정
+            CameraController.instance.isMovable = false;
+            // 키 입력 방지
+            isMovable = false;
+            // 게임 오버 UI 표시
+            StartCoroutine("Delay");
+            Invoke("GameOver", 0.8f);
+        }
+    }
+
+    private IEnumerator Delay()
+    {
+        dyingMark.SetActive(true);
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1f);
+        Time.timeScale = 1;
+        yield return null;
+    }
+
+    private void GameOver()
+    {
+        gameOverPanel.SetActive(true);
     }
 }
