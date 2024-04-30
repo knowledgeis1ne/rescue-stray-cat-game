@@ -44,9 +44,6 @@ public class ScriptManager : MonoBehaviour
     {
         scriptManager = GetComponent<ScriptManager>();
         scriptManager.LoadScript(scriptManager.GetScript((int)script.line.x, (int)script.line.y));
-
-        FindScript("TEST");
-        ShowScript();
     }
 
     private void Update()
@@ -152,5 +149,6 @@ public class ScriptManager : MonoBehaviour
                 break;
             }
         currentLine = 0;
+        ShowScript();
     }
 }

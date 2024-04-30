@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     Rigidbody2D rigid;
     WaitForSeconds ws;
+    ScriptManager scriptManager;
     public bool isJumping = false;
     public bool isRunning = false;
     public bool isIdling = true;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         ws = new WaitForSeconds(0.1f);
+        scriptManager = ScriptManager.instance;
     }
 
     private void Update()
@@ -115,6 +117,15 @@ public class PlayerController : MonoBehaviour
         switch (gameObject.name)
         {
             case "Cat":
+                // 문제를 풀었는지 여부 확인
+                if (FindKey.instance.isCompleted)
+                {
+                    scriptManager.FindScript("STAGE_1_CLEAR_2");
+                }
+                else
+                {
+                    scriptManager.FindScript("STAGE_1_FAIL_1");
+                }
                 break;
             case "Box":
                 // 키가 4개 이상이라면 일단 Key Panel 열기
@@ -122,8 +133,7 @@ public class PlayerController : MonoBehaviour
                 // 그렇지 않다면 스크립트 출력
                 else
                 {
-                    ScriptManager.instance.FindScript("STAGE_1_FAIL_3");
-                    ScriptManager.instance.ShowScript();
+                    scriptManager.FindScript("STAGE_1_FAIL_3");
                 }
                 break;
         }

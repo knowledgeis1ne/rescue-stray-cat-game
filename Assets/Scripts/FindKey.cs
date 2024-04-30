@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FindKey : MonoBehaviour
@@ -35,12 +36,6 @@ public class FindKey : MonoBehaviour
         foreach(Transform trans in p_keyHole.transform) // p_keyhole의 first depth만을 순회함
             keyHoleList.Add(trans);                     // => keyHole들의 자식은 포함되지 않음
         answerList = new List<string> { "PINK", "ORANGE", "YELLOW", "GREEN" };
-        /*
-        keys = new List<Transform>(); // 열쇠 오브젝트들을 담을 리스트
-        GameObject parentKey = GameObject.Find("Keys"); // 부모 오브젝트 찾기
-        keys = parentKey.GetComponentsInChildren<Transform>().ToList(); // 자식 오브젝트들(열쇠) 리스트에 추가
-        keys.RemoveAt(0); // 리스트 중 부모 오브젝트 제거
-        */
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -93,16 +88,16 @@ public class FindKey : MonoBehaviour
             // 정답일 경우
             if (isAnswer)
             {
+                isCompleted = true;
                 OnExitButtonClick(); // UI를 닫고 clickKeyList 초기화
                 ScriptManager.instance.FindScript("STAGE_1_CLEAR_1");
-                ScriptManager.instance.ShowScript();
+                SceneManager.LoadScene("Stage2");
             }
             // 오답일 경우
             else
             {
                 OnExitButtonClick(); // UI를 닫고 clickKeyList 초기화
                 ScriptManager.instance.FindScript("STAGE_1_FAIL_2");
-                ScriptManager.instance.ShowScript();
             }
         }
     }

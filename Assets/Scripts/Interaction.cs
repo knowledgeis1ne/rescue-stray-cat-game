@@ -16,7 +16,6 @@ public class Interact : MonoBehaviour
                 else
                 {
                     ScriptManager.instance.FindScript("STAGE_1_FAIL_3");
-                    ScriptManager.instance.ShowScript();
                 }
             }
         }
