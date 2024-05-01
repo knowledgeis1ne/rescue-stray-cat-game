@@ -10,6 +10,8 @@ TagManager:
   - Interactable
   - Cat
   - Box
+  - Enemy
+  - Citizen
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - UI
   - Tilemap
   - Interactable
-  - 
-  - 
+  - Enemy
+  - Citizen
   - 
   - 
   - 

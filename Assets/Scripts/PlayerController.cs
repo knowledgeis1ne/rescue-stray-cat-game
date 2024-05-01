@@ -187,4 +187,25 @@ public class PlayerController : MonoBehaviour
     {
         gameOverPanel.SetActive(true);
     }
+
+
+    //적과의 충돌
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            if (rigid.velocity.y < 0 && transform.position.y > collision.transform.position.y)
+            {
+                OnAttack(collision.transform);
+            }
+        }
+    }
+
+    //적을 밟아 죽이는 것
+    void OnAttack(Transform enemy)
+    {
+        rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+        EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
+        enemyMove.OnDamaged();
+    }
 }
