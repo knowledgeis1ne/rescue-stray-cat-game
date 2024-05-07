@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using Microsoft.Win32.SafeHandles;
 
 public class MissionUI : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class MissionUI : MonoBehaviour
         originalPosition = missionPanel.position;
         sceneName = SceneManager.GetActiveScene().name;
         SetText();
+        targetPosition.localPosition = new Vector3(0, 0);
         StartCoroutine(MovePanel(targetPosition.position, smoothTime));
     }
 
