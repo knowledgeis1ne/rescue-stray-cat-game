@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MissionUI : MonoBehaviour
 {
+    public static MissionUI instance;
+    public Transform fadeOutPanel;      // 페이드아웃 패널
+    public Transform missionClearPanel; // 미션 클리어 패널
     public Transform missionPanel;      // 미션 안내 패널
     public Transform targetPosition;    // 패널이 이동할 타겟 위치
     public GameObject miniPanel;
@@ -13,6 +17,11 @@ public class MissionUI : MonoBehaviour
     public float smoothTime = 1.0f;     // SmoothDamp 매개변수
     Vector3 originalPosition;           // 패널의 원래 위치 저장
     string sceneName;                   // 스테이지 구분을 위해 씬 이름 저장
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -61,5 +70,32 @@ public class MissionUI : MonoBehaviour
         missionPanel.position = originalPosition;
 
         yield return null;
+    }
+
+    public IEnumerator FadeOutPanel()
+    {
+        yield return new WaitForSeconds(1f);
+
+        WaitForSeconds wait = new WaitForSeconds(0.01f);
+
+        if (!fadeOutPanel.gameObject.activeSelf)
+            fadeOutPanel.gameObject.SetActive(true);
+
+        Color c = fadeOutPanel.GetComponent<Image>().color;
+
+        for (float f = 0f; f <= 0.6f; f += 0.025f)
+        {
+            c.a = f;
+            fadeOutPanel.GetComponent<Image>().color = c;
+            yield return wait;
+        }
+
+        ShowMissionClearPanel();
+    }
+
+    public void ShowMissionClearPanel()
+    {
+        if(!missionClearPanel.gameObject.activeSelf)
+            missionClearPanel.gameObject.SetActive(true);
     }
 }

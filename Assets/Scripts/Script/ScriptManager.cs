@@ -92,11 +92,21 @@ public class ScriptManager : MonoBehaviour
                     else
                     {
                         ShowScriptUI(false);      // 문장 끝났으면 UI 비활성화
+                        Finished();
                         isFinished = true;
                         isPlaying = false;
                     }
                 }
             }
+    }
+   
+    private void Finished()
+    {
+        // 방금 끝난 스크립트가 스테이지 클리어 스크립트였다면
+        if (currentScript.scriptName == "STAGE_1_CLEAR_2")
+        {
+            MissionUI.instance.StartCoroutine("FadeOutPanel");
+        }
     }
 
     private IEnumerator Write()

@@ -14,7 +14,6 @@ public class FindKey : MonoBehaviour
     // 스테이지 1 : 열쇠 찾기
 
     public static FindKey instance;
-    public MissionUI ui;
     public List<string> getKeyList; // 얻은 키 리스트
     public GameObject keyUI;
     public GameObject keyButtons; // 열쇠 버튼들의 부모 오브젝트
@@ -91,7 +90,8 @@ public class FindKey : MonoBehaviour
                 isCompleted = true;
                 OnExitButtonClick(); // UI를 닫고 clickKeyList 초기화
                 ScriptManager.instance.FindScript("STAGE_1_CLEAR_1");
-                SceneManager.LoadScene("Stage2");
+                MissionUI.instance.miniPanelText.text = "고양이가 갇힌 케이지를 열어 주세요";
+                //SceneManager.LoadScene("Stage2");
             }
             // 오답일 경우
             else

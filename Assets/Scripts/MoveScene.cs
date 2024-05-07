@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,5 +20,24 @@ public class MoveScene : MonoBehaviour
         #else
                 Application.Quit();
         #endif
+    }
+
+    // 다음 스테이지 시작 확인 버튼
+    public void OnClickOKButton()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        switch (sceneName) 
+        {
+            case "Stage1":
+                SceneManager.LoadScene("Stage2");
+                break;
+            case "Stage2":
+                SceneManager.LoadScene("Stage3");
+                break;
+            case "Stage3":
+                SceneManager.LoadScene("Stage4");
+                break;
+        }
+
     }
 }
