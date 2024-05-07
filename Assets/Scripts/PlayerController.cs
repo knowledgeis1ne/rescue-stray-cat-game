@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
 
+    public Rigidbody2D rigid;
     Animator anim;
-    Rigidbody2D rigid;
     WaitForSeconds ws;
     ScriptManager scriptManager;
     public bool isJumping = false; // 점프 중인가?
@@ -188,7 +188,6 @@ public class PlayerController : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
-
     //적과의 충돌
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -207,5 +206,7 @@ public class PlayerController : MonoBehaviour
         rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
         enemyMove.OnDamaged();
+        AttackEnemy.instance.attackCount++;
+        MissionUI.instance.SetText();
     }
 }

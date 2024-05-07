@@ -43,7 +43,8 @@ public class MissionUI : MonoBehaviour
                 miniPanelText.text = "고양이가 갇힌 케이지를 열기 위해 여러 색깔의 열쇠를 모아 주세요";
                 break;
             case "Stage2":
-                miniPanelText.text = "고양이를 괴롭히는 악당들을 모두 처치해 주세요";
+                miniPanelText.text = "고양이를 괴롭히는 악당들을 모두 처치해 주세요 (" 
+                    + AttackEnemy.instance.attackCount + "/" + AttackEnemy.instance.enemyCount + ")";
                 break;
             case "Stage3":
                 break;
