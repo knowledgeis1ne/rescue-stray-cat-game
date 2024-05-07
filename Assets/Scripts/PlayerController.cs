@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -131,12 +132,18 @@ public class PlayerController : MonoBehaviour
     {
         switch (gameObject.name)
         {
-            case "Cat":
+            case "Orange Cat":
                 // 문제를 풀었는지 여부 확인
                 if (FindKey.instance.isCompleted)
                     scriptManager.FindScript("STAGE_1_CLEAR_2");
                 else
                     scriptManager.FindScript("STAGE_1_FAIL_1");
+                break;
+            case "White Cat":
+                if (AttackEnemy.instance.isCompleted)
+                    scriptManager.FindScript("STAGE_2_CLEAR");
+                else
+                    scriptManager.FindScript("STAGE_2_FAIL");
                 break;
             case "Box":
                 // 키가 4개 이상이라면 일단 Key Panel 열기
@@ -207,6 +214,12 @@ public class PlayerController : MonoBehaviour
         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
         enemyMove.OnDamaged();
         AttackEnemy.instance.attackCount++;
-        MissionUI.instance.SetText();
+        if (AttackEnemy.instance.attackCount == AttackEnemy.instance.enemyCount)
+        {
+            MissionUI.instance.miniPanelText.text = "고양이를 구출하러 가세요";
+            AttackEnemy.instance.isCompleted = true;
+        }
+        else
+            MissionUI.instance.SetText();
     }
 }

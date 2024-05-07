@@ -4754,7 +4754,7 @@ GameObject:
   - component: {fileID: 845067882}
   - component: {fileID: 845067883}
   m_Layer: 7
-  m_Name: Cat
+  m_Name: Orange Cat
   m_TagString: Cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

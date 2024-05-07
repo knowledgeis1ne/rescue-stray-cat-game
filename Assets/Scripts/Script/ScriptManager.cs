@@ -103,10 +103,9 @@ public class ScriptManager : MonoBehaviour
     private void Finished()
     {
         // 방금 끝난 스크립트가 스테이지 클리어 스크립트였다면
-        if (currentScript.scriptName == "STAGE_1_CLEAR_2")
-        {
+        if (currentScript.scriptName == "STAGE_1_CLEAR_2" ||
+            currentScript.scriptName == "STAGE_2_CLEAR")
             MissionUI.instance.StartCoroutine("FadeOutPanel");
-        }
     }
 
     private IEnumerator Write()
