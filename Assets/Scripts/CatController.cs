@@ -8,7 +8,6 @@ public class CatController : MonoBehaviour
     Rigidbody2D rigid;
     WaitForSeconds ws; // 코루틴에 쓰일 변수
     public string[] animNames; // 애니메이션 클립의 이름을 저장
-    bool dir = false;
     int currentIndex = 0;
 
     private void Start()

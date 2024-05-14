@@ -20,6 +20,7 @@ public class Timer : MonoBehaviour
         {
             remainingTime = 0; //0으로 설정
             timerText.color = Color.red; //0이 되면 색깔 빨간색으로 바뀜
+            PlayerController.instance.Die();
         }
         int minutes = Mathf.FloorToInt(remainingTime / 60); //분
         int seconds = Mathf.FloorToInt(remainingTime % 60); //초
