@@ -25,6 +25,7 @@ public class MissionUI : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(FadeInPanel());
         sceneName = SceneManager.GetActiveScene().name;
         // 스테이지 1, 스테이지 2는 바로 미션 시작
         if (sceneName == "Stage1" || sceneName == "Stage2")
@@ -95,7 +96,7 @@ public class MissionUI : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator FadeOutPanel()
+    public IEnumerator FadeOutPanel(float transparent)
     {
         yield return new WaitForSeconds(1f);
 
@@ -106,14 +107,31 @@ public class MissionUI : MonoBehaviour
 
         Color c = fadeOutPanel.GetComponent<Image>().color;
 
-        for (float f = 0f; f <= 0.6f; f += 0.025f)
+        for (float f = 0f; f <= transparent; f += 0.025f)
+        {
+            c.a = f;
+            fadeOutPanel.GetComponent<Image>().color = c;
+            yield return wait;
+        }
+    }
+
+    public IEnumerator FadeInPanel()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.01f);
+
+        if (!fadeOutPanel.gameObject.activeSelf)
+            fadeOutPanel.gameObject.SetActive(true);
+
+        Color c = fadeOutPanel.GetComponent<Image>().color;
+
+        for (float f = 1f; f >= 0f; f -= 0.05f)
         {
             c.a = f;
             fadeOutPanel.GetComponent<Image>().color = c;
             yield return wait;
         }
 
-        ShowMissionClearPanel();
+        fadeOutPanel.gameObject.SetActive(false);
     }
 
     public void ShowMissionClearPanel()

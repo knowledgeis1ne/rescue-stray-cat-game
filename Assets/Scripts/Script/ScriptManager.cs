@@ -102,15 +102,28 @@ public class ScriptManager : MonoBehaviour
    
     private void Finished()
     {
+        string s_name = currentScript.scriptName;
+
         // 방금 끝난 스크립트가 스테이지 클리어 스크립트였다면
-        if (currentScript.scriptName == "STAGE_1_CLEAR_2" ||
-            currentScript.scriptName == "STAGE_2_CLEAR")
-            MissionUI.instance.StartCoroutine("FadeOutPanel");
+        if (s_name == "STAGE_1_CLEAR_2" ||
+            s_name == "STAGE_2_CLEAR")
+        {
+            MissionUI.instance.StartCoroutine("FadeOutPanel", 0.6f);
+            MissionUI.instance.ShowMissionClearPanel();
+        }
+        else if (s_name == "STAGE_3_CLEAR_1")
+        {
+            MissionUI.instance.StartCoroutine("FadeOutPanel", 1f);
+            FindScript("STAGE_3_CLEAR_2");
+        }
+        else if (s_name == "STAGE_3_CLEAR_2")
+            MissionUI.instance.ShowMissionClearPanel();
         // 스테이지 시작 스크립트였다면
-        else if (currentScript.scriptName == "STAGE_3_START")
+        else if (s_name == "STAGE_3_START")
         {
             MissionUI.instance.StartMission();
             GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject.SetActive(true);
+            GameObject.Find("Player").transform.Find("Black Cat").gameObject.SetActive(true);
         }
 
     }

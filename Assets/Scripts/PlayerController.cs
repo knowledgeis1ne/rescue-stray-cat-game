@@ -171,6 +171,8 @@ public class PlayerController : MonoBehaviour
         // Die Area에 Player가 닿았을 경우
         if (other.CompareTag("Die"))
             Die();
+        else if (other.CompareTag("Goal"))
+            ScriptManager.instance.FindScript("STAGE_3_CLEAR_1");
     }
 
     public void Die()
@@ -195,6 +197,7 @@ public class PlayerController : MonoBehaviour
 
     private void GameOver()
     {
+        MissionUI.instance.StartCoroutine("FadeOutPanel", 1f);
         gameOverPanel.SetActive(true);
     }
 
