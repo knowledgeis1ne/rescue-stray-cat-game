@@ -5422,11 +5422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7c20a84ba157f4692a1ca0c7fa10da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p_enemy: {fileID: 0}
-  enemyList:
-  - {fileID: 1174402409}
-  - {fileID: 745389590}
-  - {fileID: 1000821972}
+  p_enemy: {fileID: 2001020023}
+  enemyList: []
   enemyCount: 0
   attackCount: 0
   isCompleted: 0
