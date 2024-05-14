@@ -170,15 +170,18 @@ public class PlayerController : MonoBehaviour
     {
         // Die Area에 Player가 닿았을 경우
         if (other.CompareTag("Die"))
-        {
-            // 카메라 고정
-            CameraController.instance.isMovable = false;
-            // 키 입력 방지
-            isMovable = false;
-            // 게임 오버 UI 표시
-            StartCoroutine("Delay");
-            Invoke("GameOver", 0.8f);
-        }
+            Die();
+    }
+
+    public void Die()
+    {
+        // 카메라 고정
+        CameraController.instance.isMovable = false;
+        // 키 입력 방지
+        isMovable = false;
+        // 게임 오버 UI 표시
+        StartCoroutine("Delay");
+        Invoke("GameOver", 0.8f);
     }
 
     private IEnumerator Delay()
