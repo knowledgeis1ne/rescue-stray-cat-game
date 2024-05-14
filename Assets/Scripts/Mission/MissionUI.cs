@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
-using Microsoft.Win32.SafeHandles;
 
 public class MissionUI : MonoBehaviour
 {
@@ -19,6 +16,7 @@ public class MissionUI : MonoBehaviour
     public float smoothTime = 1.0f;     // SmoothDamp 매개변수
     Vector3 originalPosition;           // 패널의 원래 위치 저장
     string sceneName;                   // 스테이지 구분을 위해 씬 이름 저장
+    delegate void startMission();
 
     private void Awake()
     {
@@ -27,12 +25,30 @@ public class MissionUI : MonoBehaviour
 
     private void Start()
     {
+        sceneName = SceneManager.GetActiveScene().name;
+        // 스테이지 1, 스테이지 2는 바로 미션 시작
+        if (sceneName == "Stage1" || sceneName == "Stage2")
+            StartMission();
+        // 스테이지 3은 스크립트 먼저 실행
+        else if (sceneName == "Stage3")
+            ScriptManager.instance.FindScript("STAGE_3_START");
+        else
+        {
+
+        }
+    }
+
+    public void StartMission()
+    {
+        ShowPanel();
+        SetText();
+        StartCoroutine(MovePanel(targetPosition.position, smoothTime));
+    }
+
+    private void ShowPanel()
+    {
         missionPanel.gameObject.SetActive(true);
         originalPosition = missionPanel.position;
-        sceneName = SceneManager.GetActiveScene().name;
-        SetText();
-        targetPosition.localPosition = new Vector3(0, 0);
-        StartCoroutine(MovePanel(targetPosition.position, smoothTime));
     }
 
     public void SetText() // 스테이지마다 미션 패널 텍스트 새롭게 설정
@@ -56,6 +72,8 @@ public class MissionUI : MonoBehaviour
 
     private IEnumerator MovePanel(Vector3 target, float time)
     {
+        targetPosition.localPosition = new Vector3(0, 0);
+
         Vector3 velocity = Vector3.zero;
         float offset = 0.5f; // SmoothDamp에서 정확한 위치를 못 찾을 경우를 대비하여 오프셋 보정
 

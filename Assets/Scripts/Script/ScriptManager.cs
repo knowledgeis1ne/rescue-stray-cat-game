@@ -106,6 +106,13 @@ public class ScriptManager : MonoBehaviour
         if (currentScript.scriptName == "STAGE_1_CLEAR_2" ||
             currentScript.scriptName == "STAGE_2_CLEAR")
             MissionUI.instance.StartCoroutine("FadeOutPanel");
+        // 스테이지 시작 스크립트였다면
+        else if (currentScript.scriptName == "STAGE_3_START")
+        {
+            MissionUI.instance.StartMission();
+            GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject.SetActive(true);
+        }
+
     }
 
     private IEnumerator Write()
@@ -119,6 +126,7 @@ public class ScriptManager : MonoBehaviour
 
         string replaceText = currentScript.sentences[currentLine];
         replaceText = replaceText.Replace("'", ",");
+        replaceText = replaceText.Replace("\\n", "\n");
         scriptText.text = replaceText;
 
         ShowScriptUI(true);
