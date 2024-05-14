@@ -47,6 +47,7 @@ public class MissionUI : MonoBehaviour
                     + AttackEnemy.instance.attackCount + "/" + AttackEnemy.instance.enemyCount + ")";
                 break;
             case "Stage3":
+                miniPanelText.text = "다친 고양이를 시간 안에 병원에 데려가 주세요";
                 break;
             case "Stage4":
                 break;
