@@ -5630,11 +5630,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7c20a84ba157f4692a1ca0c7fa10da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p_enemy: {fileID: 0}
-  enemyList:
-  - {fileID: 1174402409}
-  - {fileID: 745389590}
-  - {fileID: 1000821972}
+  p_enemy: {fileID: 2001020023}
+  enemyList: []
   enemyCount: 0
   attackCount: 0
   isCompleted: 0
@@ -7826,6 +7823,11 @@ PrefabInstance:
 --- !u!224 &1073530897 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2602312071011228211, guid: 64bd4a9604f995b419795f7e8701e5c5, type: 3}
+  m_PrefabInstance: {fileID: 1073530896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1073530898 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2602312071011228214, guid: 64bd4a9604f995b419795f7e8701e5c5, type: 3}
   m_PrefabInstance: {fileID: 1073530896}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1093192940
@@ -12810,6 +12812,10 @@ PrefabInstance:
       propertyPath: jumpPower
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5498399304945442971, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
+      propertyPath: gameOverPanel
+      value: 
+      objectReference: {fileID: 1073530898}
     - target: {fileID: 5498399304945442975, guid: 64d4599d2f2124f48abe40579f3ebdbf, type: 3}
       propertyPath: m_RootOrder
       value: 3

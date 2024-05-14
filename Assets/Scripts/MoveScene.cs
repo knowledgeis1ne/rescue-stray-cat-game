@@ -1,32 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MoveScene : MonoBehaviour
 {
-    // 스타트 씬 시작 버튼
-    public void OnClickStartButton()
+    // 씬 이동 버튼들을 관리하는 스크립트
+
+    Button btn;
+
+    private void Start()
     {
-        SceneManager.LoadScene("Stage1"); // 
+        btn = transform.GetComponent<Button>();
+
+        if (btn != null)
+            btn.onClick.AddListener(() =>
+                Invoke(btn.gameObject.name, 0f));
     }
 
-    // 스타트 씬 종료 버튼
-    public void OnClickExitButton()
-    {
-        #if UNITY_EDITOR // 유니티 에디터 실행의 경우
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
-                Application.Quit();
-        #endif
-    }
-
-    // 다음 스테이지 시작 확인 버튼
-    public void OnClickOKButton()
+    private void Restart()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        switch (sceneName) 
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private void NextStage()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        switch (sceneName)
         {
             case "Stage1":
                 SceneManager.LoadScene("Stage2");
@@ -38,6 +40,19 @@ public class MoveScene : MonoBehaviour
                 SceneManager.LoadScene("Stage4");
                 break;
         }
+    }
 
+    private void StartGame()
+    {
+        SceneManager.LoadScene("Stage1");
+    }
+
+    private void ExitGame()
+    {
+        #if UNITY_EDITOR // 유니티 에디터 실행의 경우
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit();
+        #endif
     }
 }
