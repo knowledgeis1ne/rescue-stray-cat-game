@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -12,11 +12,11 @@ public class Timer : MonoBehaviour
     void Update()
     {
         //0초 이상
-        if(remainingTime > 0)
+        if (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime; //카운트다운
         }
-        else if(remainingTime < 0) //0초 이하
+        else if (remainingTime < 0) //0초 이하
         {
             remainingTime = 0; //0으로 설정
             timerText.color = Color.red; //0이 되면 색깔 빨간색으로 바뀜
