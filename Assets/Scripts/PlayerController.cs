@@ -211,6 +211,11 @@ public class PlayerController : MonoBehaviour
                 OnAttack(collision.transform);
             }
         }
+
+        if(collision.gameObject.tag == "Star")
+        {
+            OnDamaged(collision.transform.position);
+        }
     }
 
     //ÀûÀ» ¹â¾Æ Á×ÀÌ´Â °Í
@@ -227,5 +232,12 @@ public class PlayerController : MonoBehaviour
         }
         else
             MissionUI.instance.SetText();
+    }
+
+    void OnDamaged(Vector2 targetPos)
+    {
+        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
+        rigid.AddForce(new Vector2(dirc, 1) * 200);
+        anim.SetTrigger("doDamaged");
     }
 }

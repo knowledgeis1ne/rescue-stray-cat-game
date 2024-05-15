@@ -13,6 +13,7 @@ TagManager:
   - Enemy
   - Citizen
   - Star
+  - Goal
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Enemy
   - Citizen
   - Star
-  - 
+  - PlayerDamaged
   - 
   - 
   - 
