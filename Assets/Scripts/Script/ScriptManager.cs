@@ -91,10 +91,10 @@ public class ScriptManager : MonoBehaviour
                         StartCoroutine(Write());  // 문장 남았으면 다음 코루틴 시작
                     else
                     {
-                        ShowScriptUI(false);      // 문장 끝났으면 UI 비활성화
-                        Finished();
                         isFinished = true;
                         isPlaying = false;
+                        ShowScriptUI(false);      // 문장 끝났으면 UI 비활성화
+                        Finished();
                     }
                 }
             }
@@ -108,13 +108,15 @@ public class ScriptManager : MonoBehaviour
         if (s_name == "STAGE_1_CLEAR_2" ||
             s_name == "STAGE_2_CLEAR")
         {
-            MissionUI.instance.StartCoroutine("FadeOutPanel", 0.6f);
-            MissionUI.instance.ShowMissionClearPanel();
+            MissionUI.instance.StartCoroutine(MissionUI.instance.FadeOutPanel(0.6f, () => {
+                MissionUI.instance.ShowMissionClearPanel();
+            }));
         }
         else if (s_name == "STAGE_3_CLEAR_1")
         {
-            MissionUI.instance.StartCoroutine("FadeOutPanel", 1f);
-            FindScript("STAGE_3_CLEAR_2");
+            MissionUI.instance.StartCoroutine(MissionUI.instance.FadeOutPanel(1f, () => {
+                FindScript("STAGE_3_CLEAR_2");
+            }));
         }
         else if (s_name == "STAGE_3_CLEAR_2")
             MissionUI.instance.ShowMissionClearPanel();
@@ -125,11 +127,15 @@ public class ScriptManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject.SetActive(true);
             GameObject.Find("Player").transform.Find("Black Cat").gameObject.SetActive(true);
         }
-
     }
 
     private IEnumerator Write()
     {
+        while(true)
+        {
+            if (MissionUI.instance.isFading) yield return null;
+            else break;
+        }
         isFinished = false;
         isTyping = true;
 
