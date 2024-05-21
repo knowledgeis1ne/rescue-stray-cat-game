@@ -25,11 +25,14 @@ public class MoveScene : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    private void NextStage()
+    public void NextStage()
     {
         string sceneName = SceneManager.GetActiveScene().name;
         switch (sceneName)
         {
+            case "Intro Scene":
+                SceneManager.LoadScene("Stage1");
+                break;
             case "Stage1":
                 SceneManager.LoadScene("Stage2");
                 break;
@@ -39,12 +42,15 @@ public class MoveScene : MonoBehaviour
             case "Stage3":
                 SceneManager.LoadScene("Stage4");
                 break;
+            case "Stage4":
+                SceneManager.LoadScene("Ending Scene");
+                break;
         }
     }
 
     private void StartGame()
     {
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene("Intro Scene");
     }
 
     private void ExitGame()

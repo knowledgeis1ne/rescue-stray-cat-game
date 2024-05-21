@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScriptManager : MonoBehaviour
 {
@@ -127,15 +129,14 @@ public class ScriptManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject.SetActive(true);
             GameObject.Find("Player").transform.Find("Black Cat").gameObject.SetActive(true);
         }
+        else if (s_name == "INTRO")
+        {
+            GameObject.Find("Move Scene").GetComponent<MoveScene>().NextStage();
+        }
     }
 
     private IEnumerator Write()
     {
-        while(true)
-        {
-            if (MissionUI.instance.isFading) yield return null;
-            else break;
-        }
         isFinished = false;
         isTyping = true;
 
@@ -158,7 +159,7 @@ public class ScriptManager : MonoBehaviour
         scriptText.maxVisibleCharacters = 0; // 보여지고 있는 글자의 수
         int totalCharacters = completeText.Length; // 문장의 전체 길이
 
-        for (int i = 0; i < totalCharacters; i++)
+        for (int i = 0; i <= totalCharacters; i++)
         {
             scriptText.maxVisibleCharacters = i; // 1씩 증가시키며 타이핑 효과
             yield return new WaitForSeconds(timePerCharacter); // maxVisibleCharacters가 증가할 때마다 몇 초 대기할 건지
@@ -181,7 +182,14 @@ public class ScriptManager : MonoBehaviour
                 currentScript = script.scripts[i];
                 break;
             }
+
         currentLine = 0;
+
+        if (string.IsNullOrEmpty(currentScript.effect))
+        {
+
+        }
+
         ShowScript();
     }
 }

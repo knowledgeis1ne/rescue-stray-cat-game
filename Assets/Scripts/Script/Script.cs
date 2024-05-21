@@ -11,6 +11,8 @@ public class Script
     public string scriptName;
     [Tooltip("스크립트 내용")]
     public string[] sentences;
+    [Tooltip("스크립트 효과")]
+    public string effect;
 }
 
 [System.Serializable]

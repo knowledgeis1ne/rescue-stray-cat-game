@@ -17,7 +17,6 @@ public class MissionUI : MonoBehaviour
     public float smoothTime = 1.0f;     // SmoothDamp 매개변수
     Vector3 originalPosition;           // 패널의 원래 위치 저장
     string sceneName;                   // 스테이지 구분을 위해 씬 이름 저장
-    public bool isFading = false;
     delegate void startMission();
 
     private void Awake()
@@ -100,8 +99,6 @@ public class MissionUI : MonoBehaviour
 
     public IEnumerator FadeOutPanel(float transparent, Action onComplete = null)
     {
-        isFading = true;
-
         yield return new WaitForSeconds(1f);
 
         WaitForSeconds wait = new WaitForSeconds(0.01f);
@@ -118,15 +115,11 @@ public class MissionUI : MonoBehaviour
             yield return wait;
         }
 
-        isFading = false;
-
         onComplete?.Invoke(); // 콜백 호출
     }
 
     public IEnumerator FadeInPanel()
     {
-        isFading = true;
-
         WaitForSeconds wait = new WaitForSeconds(0.01f);
 
         if (!fadeOutPanel.gameObject.activeSelf)
@@ -142,8 +135,6 @@ public class MissionUI : MonoBehaviour
         }
 
         fadeOutPanel.gameObject.SetActive(false);
-
-        isFading = false;
     }
 
     public void ShowMissionClearPanel()
