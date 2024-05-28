@@ -34,10 +34,8 @@ public class MissionUI : MonoBehaviour
         // 스테이지 3은 스크립트 먼저 실행
         else if (sceneName == "Stage3")
             ScriptManager.instance.FindScript("STAGE_3_START");
-        else
-        {
-
-        }
+        else if (sceneName == "Stage4")
+            ScriptManager.instance.FindScript("STAGE_4_START");
     }
 
     public void StartMission()
@@ -68,6 +66,7 @@ public class MissionUI : MonoBehaviour
                 miniPanelText.text = "다친 고양이를 시간 안에 병원에 데려가 주세요";
                 break;
             case "Stage4":
+                miniPanelText.text = "목적지를 향해 계속 올라가세요";
                 break;
         }
     }

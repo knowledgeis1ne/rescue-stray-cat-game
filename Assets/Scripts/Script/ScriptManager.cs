@@ -129,6 +129,8 @@ public class ScriptManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject.SetActive(true);
             GameObject.Find("Player").transform.Find("Black Cat").gameObject.SetActive(true);
         }
+        else if (s_name == "STAGE_4_START")
+            MissionUI.instance.StartMission();
         else if (s_name == "INTRO")
         {
             GameObject.Find("Move Scene").GetComponent<MoveScene>().NextStage();
