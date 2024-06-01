@@ -11,16 +11,16 @@ public class CitizenDialogue : MonoBehaviour
     void Start()
     {
         speedchBubbleRenderer = GetComponent<SpriteRenderer>();
-        speedchBubbleRenderer.enabled = false;
+        speedchBubbleRenderer.enabled = false; //말풍선 비활성화
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision) 
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player") //플레이어가 범위 내에 들어왔을 때
         {
-            speedchBubbleRenderer.enabled = true;
+            speedchBubbleRenderer.enabled = true; //말풍선 활성화
             player = collision.gameObject.GetComponent<Transform>();
-            if(player.position.x > transform.position.x && transform.parent.localScale.x < 0)
+            if(player.position.x > transform.position.x && transform.parent.localScale.x < 0) //왼쪽, 오른쪽 방향 전환
             {
                 Flip ();
             }
@@ -31,18 +31,18 @@ public class CitizenDialogue : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision) //플레이어가 범위 밖에 벗어났을 때
     {
         if(collision.gameObject.tag == "Player")
         {
-            speedchBubbleRenderer.enabled = false;
+            speedchBubbleRenderer.enabled = false; //말풍선 비활성화
         }
     }
 
-    private void Flip()
+    private void Flip() //방향 전환
     {
-        Vector3 currentScale = transform.parent.localScale;
-        currentScale.x *= -1;
+        Vector3 currentScale = transform.parent.localScale; 
+        currentScale.x *= -1; //양수, 음수로 전환
         transform.parent.localScale = currentScale;
     }
 }

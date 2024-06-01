@@ -4,36 +4,35 @@ using UnityEngine;
 
 public class StarManager : MonoBehaviour
 {
-    float MSpeed = 2.0f;
-    bool beUp = false;
+    float MSpeed = 2.0f; //속도
+    bool beUp = false; //위치 구별 변수(위에 있는 경우엔 true, 아래에 있을 경우 false)
 
     // Update is called once per frame
     void Update()
     {
-        if (beUp == false)
+        if (beUp == false) //아래에 있을 때
         {
-            transform.Translate(Vector2.up * MSpeed * Time.deltaTime);
+            transform.Translate(Vector2.up * MSpeed * Time.deltaTime); //위로 움직임
         }
-        else
+        else //위에 있을 때
         {
-            transform.Translate(Vector2.down * MSpeed * Time.deltaTime);
+            transform.Translate(Vector2.down * MSpeed * Time.deltaTime); //아래로 움직임
         }
     }
 
-    // 강체 간의 충돌 검사
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision) //충돌
     {
-        if (collision.name.Contains("boundary"))
+        if (collision.name.Contains("boundary")) //이동방향에 따라 이미지 반전
         {
-            if (beUp == false)
+            if (beUp == false) 
             {
                 beUp = true;
-                transform.localScale = new Vector3(1, -1, 1);
+                transform.localScale = new Vector3(1, -1, 1); //이미지 반전
             }
             else
             {
                 beUp = false;
-                transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(1, 1, 1); //이미지 반전
             }
         }
     }

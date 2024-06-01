@@ -201,30 +201,29 @@ public class PlayerController : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
-    //적과의 충돌
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy") //적과의 충돌
         {
-            if (rigid.velocity.y < 0 && transform.position.y > collision.transform.position.y)
+            if (rigid.velocity.y < 0 && transform.position.y > collision.transform.position.y) //몬스터보다 위에 있음 and 아래로 낙하 중 = 밟음
             {
-                OnAttack(collision.transform);
+                OnAttack(collision.transform); //OnAttack 함수 호출
             }
         }
 
-        if(collision.gameObject.tag == "Star")
+        if(collision.gameObject.tag == "Star") //별(장애물)과의 충돌
         {
-            OnDamaged(collision.transform.position);
+            OnDamaged(collision.transform.position); //OnDamaged 함수 호출
         }
     }
 
     //적을 밟아 죽이는 것
     void OnAttack(Transform enemy)
     {
-        rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
-        EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
-        enemyMove.OnDamaged();
-        AttackEnemy.instance.attackCount++;
+        rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse); //반동
+        EnemyMove enemyMove = enemy.GetComponent<EnemyMove>(); 
+        enemyMove.OnDamaged(); //적 대미지 입음
+        AttackEnemy.instance.attackCount++; 
         if (AttackEnemy.instance.attackCount == AttackEnemy.instance.enemyCount)
         {
             MissionUI.instance.miniPanelText.text = "고양이를 구출하러 가세요";
@@ -236,8 +235,8 @@ public class PlayerController : MonoBehaviour
 
     void OnDamaged(Vector2 targetPos)
     {
-        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
+        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1; //반동
         rigid.AddForce(new Vector2(dirc, 1) * 200);
-        anim.SetTrigger("doDamaged");
+        anim.SetTrigger("doDamaged"); //애니메이션 재생
     }
 }
