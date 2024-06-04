@@ -176,8 +176,11 @@ public class ScriptManager : MonoBehaviour
             case "STAGE_4_CLEAR_1":
                 GameObject.Find("Canvas").transform.Find("Letter Panel").gameObject.SetActive(true);
                 break;
+            case "STAGE_4_CLEAR_2":
+                SceneManager.LoadScene("Ending Scene");
+                break;
             case "INTRO":
-                GameObject.Find("Move Scene").GetComponent<MoveScene>().NextStage();
+                SceneManager.LoadScene("Stage1");
                 break;
         }
     }
