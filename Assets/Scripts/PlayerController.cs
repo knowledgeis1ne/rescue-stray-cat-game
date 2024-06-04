@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -144,6 +145,9 @@ public class PlayerController : MonoBehaviour
                     scriptManager.FindScript("STAGE_2_CLEAR");
                 else
                     scriptManager.FindScript("STAGE_2_FAIL");
+                break;
+            case "Brown Cat":
+                scriptManager.FindScript("STAGE_4_CLEAR_1");
                 break;
             case "Box":
                 // 키가 4개 이상이라면 일단 Key Panel 열기

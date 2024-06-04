@@ -62,7 +62,7 @@ MonoBehaviour:
   scriptPanel: {fileID: 0}
   scriptText: {fileID: 0}
   script:
-    line: {x: 1, y: 13}
+    line: {x: 1, y: 16}
     scripts: []
   scripts: []
   currentScript:
