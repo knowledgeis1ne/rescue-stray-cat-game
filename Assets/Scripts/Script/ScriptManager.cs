@@ -102,6 +102,7 @@ public class ScriptManager : MonoBehaviour
             }
     }
    
+    /*
     private void Finished()
     {
         string s_name = currentScript.scriptName;
@@ -134,6 +135,50 @@ public class ScriptManager : MonoBehaviour
         else if (s_name == "INTRO")
         {
             GameObject.Find("Move Scene").GetComponent<MoveScene>().NextStage();
+        }
+    }
+    */
+
+    private void Finished()
+    {
+        string s_name = currentScript.scriptName;
+
+        switch (s_name)
+        {
+            case "STAGE_1_CLEAR_2":
+                MissionUI.instance.StartCoroutine(MissionUI.instance.FadeOutPanel(0.6f, () =>
+                {
+                    MissionUI.instance.ShowMissionClearPanel();
+                }));
+                break;
+            case "STAGE_2_CLEAR":
+                MissionUI.instance.StartCoroutine(MissionUI.instance.FadeOutPanel(0.6f, () =>
+                {
+                    MissionUI.instance.ShowMissionClearPanel();
+                }));
+                break;
+            case "STAGE_3_CLEAR_1":
+                MissionUI.instance.StartCoroutine(MissionUI.instance.FadeOutPanel(1f, () => {
+                    FindScript("STAGE_3_CLEAR_2");
+                }));
+                break;
+            case "STAGE_3_CLEAR_2":
+                MissionUI.instance.ShowMissionClearPanel();
+                break;
+            case "STAGE_3_START":
+                MissionUI.instance.StartMission();
+                GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject.SetActive(true);
+                GameObject.Find("Player").transform.Find("Black Cat").gameObject.SetActive(true);
+                break;
+            case "STAGE_4_START":
+                MissionUI.instance.StartMission();
+                break;
+            case "STAGE_4_CLEAR_1":
+                GameObject.Find("Canvas").transform.Find("Letter Panel").gameObject.SetActive(true);
+                break;
+            case "INTRO":
+                GameObject.Find("Move Scene").GetComponent<MoveScene>().NextStage();
+                break;
         }
     }
 
