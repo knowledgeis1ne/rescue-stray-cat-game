@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Intro : MonoBehaviour
 {
@@ -11,7 +12,17 @@ public class Intro : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FadeInPanel());
-        ScriptManager.instance.FindScript("INTRO");
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        switch (sceneName)
+        {
+            case "Intro Scene":
+                ScriptManager.instance.FindScript("INTRO");
+                break;
+            case "Ending Scene":
+                ScriptManager.instance.FindScript("ENDING");
+                break;
+        }
     }
 
     public IEnumerator FadeOutPanel(float transparent, Action onComplete = null)

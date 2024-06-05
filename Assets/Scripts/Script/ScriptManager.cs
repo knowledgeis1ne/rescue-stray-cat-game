@@ -182,6 +182,9 @@ public class ScriptManager : MonoBehaviour
             case "INTRO":
                 SceneManager.LoadScene("Stage1");
                 break;
+            case "ENDING":
+                SceneManager.LoadScene("Start Scene");
+                break;
         }
     }
 
