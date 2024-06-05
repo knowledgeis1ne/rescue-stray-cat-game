@@ -48,6 +48,11 @@ public class MoveScene : MonoBehaviour
         }
     }
 
+    private void MainScene()
+    {
+        SceneManager.LoadScene("Start Scene");
+    }
+
     private void StartGame()
     {
         SceneManager.LoadScene("Intro Scene");

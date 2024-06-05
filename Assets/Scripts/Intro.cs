@@ -7,7 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class Intro : MonoBehaviour
 {
+    public static Intro instance;
+
     public Transform fadeOutPanel;      // 페이드아웃 패널
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {

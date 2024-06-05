@@ -183,7 +183,10 @@ public class ScriptManager : MonoBehaviour
                 SceneManager.LoadScene("Stage1");
                 break;
             case "ENDING":
-                SceneManager.LoadScene("Start Scene");
+                Intro.instance.StartCoroutine(Intro.instance.FadeOutPanel(1f, () =>
+                {
+                    GameObject.Find("Canvas").transform.Find("Game Clear Panel").gameObject.SetActive(true);
+                }));
                 break;
         }
     }
